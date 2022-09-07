@@ -16,11 +16,15 @@ length' xs = sum [1 | _ <- xs]
 
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 
+triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ] 
+
+rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2] 
+
 {-
  - Me mucking around
  -}
-fizzBuzz :: [Int] -> [String]
-fizzBuzz xi = [if (x `mod` 15) == 0 then "FizzBuzz" else if (x `mod` 5) == 0 then "Buzz" else if (x `mod` 3) == 0 then "Fizz" else show x | x <- xi]
+fizzBuzz :: Int -> [String]
+fizzBuzz n = [if (x `mod` 15) == 0 then "FizzBuzz" else if (x `mod` 5) == 0 then "Buzz" else if (x `mod` 3) == 0 then "Fizz" else show x | x <- [1..n]]
 
 {-
  - Exercises
@@ -65,8 +69,9 @@ slice i k l = [l!!n | n <-[0..length l - 1], n >= i, n < k]
 
 -- Insert element x in list l at index k
 -- For example, "insertElem 2 5 [0,0,0,0,0,0]" returns [0,0,0,0,0,2,0]
-insertElem x k l = undefined
+insertElem :: foo -> Int -> [foo] -> [foo]
+insertElem x k l = slice 0 k l ++ [x] ++ slice k (length l) l
 
 -- Rotate list l n places left.
 -- For example, "rotate 2 [1,2,3,4,5]" gives [3,4,5,1,2]
-rotate n l = undefined
+rotate n l = slice n (length l) l ++ slice 0 n l
