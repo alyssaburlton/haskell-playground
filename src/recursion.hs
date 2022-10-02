@@ -68,7 +68,7 @@ stepReverseSign :: (Fractional a, Ord a) => a -> a -> a
 stepReverseSign 0 _ = 0
 stepReverseSign x 0 = -x
 stepReverseSign x y = sign * (abs x + y)
-  where sign = x / (-x)
+  where sign = abs x / (-x)
 
 {- Lets calculate pi.
  - The Leibniz formula for pi (http://en.wikipedia.org/wiki/Leibniz_formula_for_%CF%80)
@@ -99,7 +99,9 @@ stepReverseSign x y = sign * (abs x + y)
  -}
 
 piCalc :: (Fractional a, Integral b, Ord a) => a -> (a, b)
-piCalc a = undefined
+piCalc a = piCalc' 0.0 1 a 0
 
 piCalc' :: (Ord a, Fractional a, Integral b) => a -> a -> a -> b -> (a, b)
-piCalc' w x y z = undefined
+piCalc' estimate denom tolerance callCount
+   | abs (3.1415926535 - estimate) < tolerance = (estimate, callCount)
+   | otherwise = piCalc' (estimate + 4/denom) (stepReverseSign denom 2) tolerance (callCount + 1)
