@@ -103,5 +103,6 @@ piCalc a = piCalc' 0.0 1 a 0
 
 piCalc' :: (Ord a, Fractional a, Integral b) => a -> a -> a -> b -> (a, b)
 piCalc' estimate denom tolerance callCount
-   | abs (3.1415926535 - estimate) < tolerance = (estimate, callCount)
+   | abs (newPi - estimate) < tolerance = (estimate, callCount)
    | otherwise = piCalc' (estimate + 4/denom) (stepReverseSign denom 2) tolerance (callCount + 1)
+   where newPi = estimate + 4/denom
